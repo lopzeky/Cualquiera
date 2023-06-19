@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!DOCTYPE html>
+<html>
+    <head>
+       <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+       <script type="text/javascript">
+            $(document).ready(function () {
+                $("#enviar").click(function () {
+                    $.ajax({
+                        url: "/Home/GetResult",
+                        type: "post",
+                        datatype: "json",
+                        success: function (data) {
+                            var resultado = "";
+                            for (var i = 0; i < data.length; i++) {
+                                resultado += "nombre" + data[i].nombres;
+                                //resultado += data[i].nombres;
+                            }
+                            $("#resultado").html(resultado);
+                        },
+                        error: function () {
+                            $("#resultado").text("error");
+                        }
+                    });
+                })
+            })
+       </script>
+    </head>
+    <body>
+        <div class="text-center">
+           <h1 class="display-4">Welcome</h1>
+           <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+         </div>
+         <a href="@Url.Action("GeneratePdf", "Pdf")" class="btn btn-primary">Descargar PDF</a>
+         <div id=""> </div>
+    </body>
+</html>
