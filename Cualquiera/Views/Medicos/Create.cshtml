@@ -10,41 +10,41 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" class="needs-validation" novalidate>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Nombres" class="control-label"></label>
-                <input asp-for="Nombres" class="form-control" />
+                <input asp-for="Nombres" class="form-control" pattern="[A-Za-z0-9]" name="" value="" />
                 <span asp-validation-for="Nombres" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Apellidos" class="control-label"></label>
-                <input asp-for="Apellidos" class="form-control" />
+                <input asp-for="Apellidos" class="form-control" pattern="[A-Za-z0-9]{1,15}" name="" value="" />
                 <span asp-validation-for="Apellidos" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FechaNacimiento" class="control-label"></label>
-                <input asp-for="FechaNacimiento" class="form-control" />
+                <input asp-for="FechaNacimiento" class="form-control" value="" required />
                 <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Rut" class="control-label"></label>
-                <input asp-for="Rut" class="form-control" />
+                <input asp-for="Rut" class="form-control" value="" required />
                 <span asp-validation-for="Rut" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
+                <input asp-for="Email" class="form-control" pattern="[A-Za-z0-9]{1,15}" name="" value="" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Disponible" /> @Html.DisplayNameFor(model => model.Disponible)
+                    <input  class="form-check-input" asp-for="Disponible" /> @Html.DisplayNameFor(model => model.Disponible)
                 </label>
             </div>
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
+                <input value="" required asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
