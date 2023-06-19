@@ -28,7 +28,7 @@ namespace Cualquiera.Controllers
                 Doc = Doc.Where(s => s.Nombres!.Contains(buscar));
             }
             ViewData["FiltroNombre"] = String.IsNullOrEmpty(filtro) ? "NombreDescendente" : "";
-            ViewData["FiltroFecha"] = filtro=="" ? "FechaDescendente" : "";
+            ViewData["FiltroFecha"] = filtro=="FechaAscendente" ? "FechaDescendente" : "FechaAscendente";
             switch (filtro)
             { 
                 case "NombreDescendente":
@@ -36,6 +36,9 @@ namespace Cualquiera.Controllers
                     break;
                 case "FechaDescendente":
                     Doc = Doc.OrderByDescending(Doc => Doc.FechaNacimiento);
+                    break;
+                case "FechaAscendente":
+                    Doc = Doc.OrderBy(Doc => Doc.FechaNacimiento);
                     break;
                 default:
                     Doc = Doc.OrderBy(Doc => Doc.Nombres);
