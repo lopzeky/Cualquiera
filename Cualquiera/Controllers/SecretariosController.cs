@@ -6,9 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Cualquiera.Models;
+using System.Text.RegularExpressions;
+
 
 namespace Cualquiera.Controllers
 {
+    
     public class SecretariosController : Controller
     {
         private readonly ClinicaContext _context;
@@ -53,19 +56,88 @@ namespace Cualquiera.Controllers
         // POST: Secretarios/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Password")] Secretario secretario)
         {
+            if(!SoloLetras(secretario.Nombres))
+            {
+                ModelState.AddModelError("Nombres", "El Nombre ingresado no es válido.");
+            }
+            if (!SoloLetras(secretario.Apellidos))
+            {
+                ModelState.AddModelError("Apellidos", "El Apellido ingresado no es válido.");
+            }
+            if (!EsRutValido(secretario.Rut))
+            {
+                ModelState.AddModelError("Rut", "El Rut ingresado no es válido.");
+            }
+            if (!SoloEmail(secretario.Email))
+            {
+                ModelState.AddModelError("Email", "El Email ingresado no es válido.");
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(secretario);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(secretario);
         }
-
+        public bool SoloLetras(string cadena)
+        {
+            Regex regex = new Regex(@"[^a-zA-Z]");
+            if (regex.IsMatch(cadena))
+            {
+                return false;
+            }
+            return true;
+        }
+        
+        public bool SoloEmail(string email)
+        {
+            string emailPatron = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
+            Match match = Regex.Match(email, emailPatron);
+            return match.Success;
+        }
+        private bool EsRutValido(string rut)
+        {
+            rut = rut.Replace(".", "").Replace("-", "");
+            if (!Regex.IsMatch(rut, @"^\d{7,8}[0-9Kk]$"))
+            {
+                return false;
+            }
+            char dv = rut[rut.Length - 1];
+            string cuerpo = rut.Substring(0, rut.Length - 1);
+            int suma = 0;
+            int multiplicador = 2;
+            for (int i = cuerpo.Length - 1; i >= 0; i--)
+            {
+                suma += int.Parse(cuerpo[i].ToString()) * multiplicador;
+                multiplicador = multiplicador == 7 ? 2 : multiplicador + 1;
+            }
+            int resto = suma % 11;
+            int verificador = 11 - resto;
+            if (verificador == 10 && (dv == 'K' || dv == 'k'))
+            {
+                return true;
+            }
+            else if (verificador == 11 && dv == '0')
+            {
+                return true;
+            }
+            else if (verificador == int.Parse(dv.ToString()))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         // GET: Secretarios/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -73,7 +145,6 @@ namespace Cualquiera.Controllers
             {
                 return NotFound();
             }
-
             var secretario = await _context.Secretarios.FindAsync(id);
             if (secretario == null)
             {
@@ -81,7 +152,6 @@ namespace Cualquiera.Controllers
             }
             return View(secretario);
         }
-
         // POST: Secretarios/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -89,11 +159,10 @@ namespace Cualquiera.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Password")] Secretario secretario)
         {
-            if (id != secretario.Id)
+            if (id != secretario.Id && !EsRutValido(secretario.Rut))
             {
                 return NotFound();
             }
-
             if (ModelState.IsValid)
             {
                 try

@@ -7,8 +7,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Cualquiera.Models;
 
+
 namespace Cualquiera.Controllers
 {
+    
     public class AdministradorsController : Controller
     {
         private readonly ClinicaContext _context;

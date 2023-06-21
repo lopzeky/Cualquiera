@@ -19,6 +19,8 @@ public partial class Medico
 
     public DateTime FechaNacimiento { get; set; }
 
+    [Required(ErrorMessage = "El campo de Rut es obligatorio.")]
+    [RegularExpression(@"^[A-Za-z ]+$", ErrorMessage = "El campo de Rut debe tener los parametros necesarios.")]
     public string Rut { get; set; } = null!;
 
     [Required(ErrorMessage = "El campo Email es obligatorio.")]

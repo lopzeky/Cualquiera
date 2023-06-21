@@ -6,9 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Cualquiera.Models;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace Cualquiera.Controllers
 {
+    
     public class MedicosController : Controller
     {
         private readonly ClinicaContext _context;
@@ -179,6 +182,19 @@ namespace Cualquiera.Controllers
         private bool MedicoExists(int id)
         {
           return (_context.Medicos?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+        [HttpPost]
+        public IActionResult name([RegularExpression(@"^[A-Za-z ]+$", ErrorMessage = "El campo solo puede contener texto.")] string campoTexto)
+        {
+            if (ModelState.IsValid)
+            {
+                // El campo de texto es válido, realizar acciones adicionales aquí
+                // ...
+                return RedirectToAction("OtraAccion");
+            }
+
+            // El campo de texto no es válido, volver a la vista con los errores de validación
+            return View();
         }
     }
 }

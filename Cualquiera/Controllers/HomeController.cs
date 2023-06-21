@@ -1,10 +1,12 @@
 ﻿using Cualquiera.Models;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace Cualquiera.Controllers
 {
+    
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -20,7 +22,7 @@ namespace Cualquiera.Controllers
         {
             return View();
         }
-
+        
         public IActionResult Privacy()
         {
             return View();
