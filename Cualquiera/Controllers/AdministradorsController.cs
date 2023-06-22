@@ -169,6 +169,18 @@ namespace Cualquiera.Controllers
             {
                 return NotFound();
             }
+            if (!SoloLetras(administrador.Usuario))
+            {
+                ModelState.AddModelError("Usuario", "El Usuario ingresado no es válido.");
+            }
+            if (!EsRutValido(administrador.Rut))
+            {
+                ModelState.AddModelError("Rut", "El Rut ingresado no es válido.");
+            }
+            if (!LargoPass(administrador.Password))
+            {
+                ModelState.AddModelError("Password", "El largo debe ser entre 5 y 8");
+            }
 
             if (ModelState.IsValid)
             {
