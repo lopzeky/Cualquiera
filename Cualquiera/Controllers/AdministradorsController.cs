@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Cualquiera.Models;
-
+using System.Text.RegularExpressions;
 
 namespace Cualquiera.Controllers
 {
@@ -64,6 +64,18 @@ namespace Cualquiera.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Usuario,Password,Rut")] Administrador administrador)
         {
+            if (!SoloLetras(administrador.Usuario))
+            {
+                ModelState.AddModelError("Usuario", "El Usuario ingresado no es válido.");
+            }
+            if (!EsRutValido(administrador.Rut))
+            {
+                ModelState.AddModelError("Rut", "El Rut ingresado no es válido.");
+            }
+            if (!LargoPass(administrador.Password))
+            {
+                ModelState.AddModelError("Password","El largo debe ser entre 5 y 8");
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(administrador);
@@ -71,6 +83,63 @@ namespace Cualquiera.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(administrador);
+        }
+
+        public bool SoloLetras(string cadena)
+        {
+            Regex regex = new Regex(@"[^a-zA-Z]");
+            //if (regex.IsMatch(cadena))
+            if (Regex.IsMatch(cadena, @"[^a-zA-Z]"))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool LargoPass(string x)
+        {
+            int y = x.Length;
+            if (y >= 5 && y <= 8)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool EsRutValido(string rut)
+        {
+            rut = rut.Replace(".", "").Replace("-", "");
+            if (!Regex.IsMatch(rut, @"^\d{7,8}[0-9Kk]$"))
+            {
+                return false;
+            }
+            char dv = rut[rut.Length - 1];
+            string cuerpo = rut.Substring(0, rut.Length - 1);
+            int suma = 0;
+            int multiplicador = 2;
+            for (int i = cuerpo.Length - 1; i >= 0; i--)
+            {
+                suma += int.Parse(cuerpo[i].ToString()) * multiplicador;
+                multiplicador = multiplicador == 7 ? 2 : multiplicador + 1;
+            }
+            int resto = suma % 11;
+            int verificador = 11 - resto;
+            if (verificador == 10 && (dv == 'K' || dv == 'k'))
+            {
+                return true;
+            }
+            else if (verificador == 11 && dv == '0')
+            {
+                return true;
+            }
+            else if (verificador == int.Parse(dv.ToString()))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         // GET: Administradors/Edit/5

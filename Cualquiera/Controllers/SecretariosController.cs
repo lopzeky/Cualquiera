@@ -136,6 +136,14 @@ namespace Cualquiera.Controllers
                 return false;
             }
         }
+        /*[HttpPost]
+        public IActionResult ValidarRut(string rut)
+        {
+            bool isValid = EsRutValido(rut);
+
+            return Json(new { isValid });
+        }*/
+
         // GET: Secretarios/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
