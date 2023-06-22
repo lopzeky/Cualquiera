@@ -1,11 +1,13 @@
 ﻿using Cualquiera.Models;
 using Microsoft.AspNetCore.Authentication;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace Cualquiera.Controllers
 {
+    
     public class Account : Controller
     {
         private readonly ClinicaContext _DbContext;

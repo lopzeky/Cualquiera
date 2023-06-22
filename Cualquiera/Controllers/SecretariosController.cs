@@ -8,8 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using Cualquiera.Models;
 using System.Text.RegularExpressions;
 
+
 namespace Cualquiera.Controllers
 {
+    
     public class SecretariosController : Controller
     {
         private readonly ClinicaContext _context;
@@ -54,38 +56,51 @@ namespace Cualquiera.Controllers
         // POST: Secretarios/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-
-        /*[HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Password")] Secretario secretario)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(secretario);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(secretario);
-        }*/
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Password")] Secretario secretario)
         {
+            if(!SoloLetras(secretario.Nombres))
+            {
+                ModelState.AddModelError("Nombres", "El Nombre ingresado no es válido.");
+            }
+            if (!SoloLetras(secretario.Apellidos))
+            {
+                ModelState.AddModelError("Apellidos", "El Apellido ingresado no es válido.");
+            }
             if (!EsRutValido(secretario.Rut))
             {
                 ModelState.AddModelError("Rut", "El Rut ingresado no es válido.");
             }
-
+            if (!SoloEmail(secretario.Email))
+            {
+                ModelState.AddModelError("Email", "El Email ingresado no es válido.");
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(secretario);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
             return View(secretario);
         }
-
+        public bool SoloLetras(string cadena)
+        {
+            Regex regex = new Regex(@"[^a-zA-Z]");
+            if (regex.IsMatch(cadena))
+            {
+                return false;
+            }
+            return true;
+        }
+        
+        public bool SoloEmail(string email)
+        {
+            string emailPatron = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
+            Match match = Regex.Match(email, emailPatron);
+            return match.Success;
+        }
         private bool EsRutValido(string rut)
         {
             rut = rut.Replace(".", "").Replace("-", "");
@@ -121,6 +136,13 @@ namespace Cualquiera.Controllers
                 return false;
             }
         }
+        /*[HttpPost]
+        public IActionResult ValidarRut(string rut)
+        {
+            bool isValid = EsRutValido(rut);
+
+            return Json(new { isValid });
+        }*/
 
         // GET: Secretarios/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -129,7 +151,6 @@ namespace Cualquiera.Controllers
             {
                 return NotFound();
             }
-
             var secretario = await _context.Secretarios.FindAsync(id);
             if (secretario == null)
             {
@@ -137,7 +158,6 @@ namespace Cualquiera.Controllers
             }
             return View(secretario);
         }
-
         // POST: Secretarios/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -145,11 +165,26 @@ namespace Cualquiera.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Password")] Secretario secretario)
         {
-            if (id != secretario.Id)
+            if (id != secretario.Id && !EsRutValido(secretario.Rut))
             {
                 return NotFound();
             }
-
+            if (!SoloLetras(secretario.Nombres))
+            {
+                ModelState.AddModelError("Nombres", "El Nombre ingresado no es válido.");
+            }
+            if (!SoloLetras(secretario.Apellidos))
+            {
+                ModelState.AddModelError("Apellidos", "El Apellido ingresado no es válido.");
+            }
+            if (!EsRutValido(secretario.Rut))
+            {
+                ModelState.AddModelError("Rut", "El Rut ingresado no es válido.");
+            }
+            if (!SoloEmail(secretario.Email))
+            {
+                ModelState.AddModelError("Email", "El Email ingresado no es válido.");
+            }
             if (ModelState.IsValid)
             {
                 try
@@ -215,5 +250,4 @@ namespace Cualquiera.Controllers
           return (_context.Secretarios?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
-
 }
