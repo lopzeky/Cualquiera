@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Cualquiera.Models;
+using System.Text.RegularExpressions;
 
 namespace Cualquiera.Controllers
 {
@@ -53,7 +54,8 @@ namespace Cualquiera.Controllers
         // POST: Secretarios/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+
+        /*[HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Password")] Secretario secretario)
         {
@@ -64,6 +66,60 @@ namespace Cualquiera.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(secretario);
+        }*/
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Password")] Secretario secretario)
+        {
+            if (!EsRutValido(secretario.Rut))
+            {
+                ModelState.AddModelError("Rut", "El Rut ingresado no es válido.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                _context.Add(secretario);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(secretario);
+        }
+
+        private bool EsRutValido(string rut)
+        {
+            rut = rut.Replace(".", "").Replace("-", "");
+            if (!Regex.IsMatch(rut, @"^\d{7,8}[0-9Kk]$"))
+            {
+                return false;
+            }
+            char dv = rut[rut.Length - 1];
+            string cuerpo = rut.Substring(0, rut.Length - 1);
+            int suma = 0;
+            int multiplicador = 2;
+            for (int i = cuerpo.Length - 1; i >= 0; i--)
+            {
+                suma += int.Parse(cuerpo[i].ToString()) * multiplicador;
+                multiplicador = multiplicador == 7 ? 2 : multiplicador + 1;
+            }
+            int resto = suma % 11;
+            int verificador = 11 - resto;
+            if (verificador == 10 && (dv == 'K' || dv == 'k'))
+            {
+                return true;
+            }
+            else if (verificador == 11 && dv == '0')
+            {
+                return true;
+            }
+            else if (verificador == int.Parse(dv.ToString()))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         // GET: Secretarios/Edit/5
@@ -159,4 +215,5 @@ namespace Cualquiera.Controllers
           return (_context.Secretarios?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
+
 }
