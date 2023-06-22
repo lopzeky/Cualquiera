@@ -95,7 +95,7 @@ namespace Cualquiera.Controllers
             {
                 ModelState.AddModelError("Rut", "El Rut ingresado no es válido.");
             }
-            if (!LargoPass(administrador.Password))
+            if (!LargoPass(medico.Password))
             {
                 ModelState.AddModelError("Password", "El largo debe ser entre 5 y 8");
             }
