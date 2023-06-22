@@ -73,6 +73,10 @@ namespace Cualquiera.Controllers
             {
                 ModelState.AddModelError("Rut", "El Rut ingresado no es válido.");
             }
+            if (!LargoPass(administrador.Password))
+            {
+                ModelState.AddModelError("Password", "El largo debe ser entre 5 y 8");
+            }
             if (!SoloEmail(secretario.Email))
             {
                 ModelState.AddModelError("Email", "El Email ingresado no es válido.");
@@ -94,7 +98,16 @@ namespace Cualquiera.Controllers
             }
             return true;
         }
-        
+        public bool LargoPass(string x)
+        {
+            int y = x.Length;
+            if (y >= 5 && y <= 8)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public bool SoloEmail(string email)
         {
             string emailPatron = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
