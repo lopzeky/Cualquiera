@@ -77,14 +77,12 @@ namespace Cualquiera.Controllers
             {
                 ModelState.AddModelError("Email", "El Email ingresado no es válido.");
             }
-
             if (ModelState.IsValid)
             {
                 _context.Add(secretario);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
             return View(secretario);
         }
         public bool SoloLetras(string cadena)
@@ -162,6 +160,22 @@ namespace Cualquiera.Controllers
             if (id != secretario.Id && !EsRutValido(secretario.Rut))
             {
                 return NotFound();
+            }
+            if (!SoloLetras(secretario.Nombres))
+            {
+                ModelState.AddModelError("Nombres", "El Nombre ingresado no es válido.");
+            }
+            if (!SoloLetras(secretario.Apellidos))
+            {
+                ModelState.AddModelError("Apellidos", "El Apellido ingresado no es válido.");
+            }
+            if (!EsRutValido(secretario.Rut))
+            {
+                ModelState.AddModelError("Rut", "El Rut ingresado no es válido.");
+            }
+            if (!SoloEmail(secretario.Email))
+            {
+                ModelState.AddModelError("Email", "El Email ingresado no es válido.");
             }
             if (ModelState.IsValid)
             {
