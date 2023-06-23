@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Cualquiera.Models;
 using System.Data;
 using Microsoft.AspNetCore.Authorization;
+using System.Text.RegularExpressions;
 
 namespace Cualquiera.Controllers
 {
@@ -88,8 +89,7 @@ namespace Cualquiera.Controllers
         // POST: Pacientes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         /*public async Task<IActionResult> Edit(int id, [Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Telefono")] Paciente paciente)
         {
             if (id != paciente.Id)
@@ -119,13 +119,39 @@ namespace Cualquiera.Controllers
             }
             return View(paciente);
         }*/
+        public bool SoloEmail(string email)
+        {
+            string emailPatron = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
+            Match match = Regex.Match(email, emailPatron);
+            return match.Success;
+        }
+        public bool SoloNumeros(int num)
+        {
+            string numero = Convert.ToString(num);
+            for(int i = 8; i <= numero.Length; i++)
+            {
+                if (numero.Length !=9)
+                {
+                    return false;
+                }
+            }return true;
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Telefono")] Paciente paciente)
         {
             if (id != paciente.Id)
             {
                 return NotFound();
             }
-
+            if (!SoloEmail(paciente.Email))
+            {
+                ModelState.AddModelError("Email", "El Email ingresado no es válido.");
+            }
+            if (!SoloNumeros(paciente.Telefono))
+            {
+                ModelState.AddModelError("Telefono", "El Numero ingresado no es válido.");
+            }
             if (ModelState.IsValid)
             {
                 try

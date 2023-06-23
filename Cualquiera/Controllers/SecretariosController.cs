@@ -158,6 +158,7 @@ namespace Cualquiera.Controllers
         }*/
 
         // GET: Secretarios/Edit/5
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Secretarios == null)
