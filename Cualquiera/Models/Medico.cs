@@ -6,6 +6,7 @@ namespace Cualquiera.Models;
 
 public partial class Medico
 {
+    internal string pwd2;
     public int Id { get; set; }
 
     /*[Required(ErrorMessage = "El campo Nombres es obligatorio.")]

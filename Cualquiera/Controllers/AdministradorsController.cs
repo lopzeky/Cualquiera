@@ -169,8 +169,9 @@ namespace Cualquiera.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Usuario,Password,Rut")] Administrador administrador)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Usuario,Password,Rut")] Administrador administrador,string pwd2)
         {
+            
             if (id != administrador.Id)
             {
                 return NotFound();
@@ -186,6 +187,10 @@ namespace Cualquiera.Controllers
             if (!LargoPass(administrador.Password))
             {
                 ModelState.AddModelError("Password", "El largo debe ser entre 5 y 8");
+            }
+            if (!administrador.Password.Equals(pwd2))
+            {
+                ModelState.AddModelError("Password", "La contraseña no coincide");
             }
 
             if (ModelState.IsValid)

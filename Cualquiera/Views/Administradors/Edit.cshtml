@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" >
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
@@ -24,8 +24,8 @@
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label class="control-label">Confirme Pswd</label>
-                <input type="password" id="password2" class="form-control" />
+                <label class="control-label">Confirme Passsword</label>
+                <input type="password" id="password2" name="pwd2" class="form-control" />
                 <span class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -46,7 +46,7 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
+    <!--<script>
         var password1 = document.getElementById("password1");
         var password2 = document.getElementById("password2");
 
@@ -57,5 +57,5 @@
                 password2.setCustomValidity("");
             }
         });
-    </script>
+    </script>-->
 }

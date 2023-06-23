@@ -59,7 +59,7 @@ namespace Cualquiera.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Password")] Secretario secretario)
+        public async Task<IActionResult> Create([Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Password")] Secretario secretario, string pwd2)
         {
             if(!SoloLetras(secretario.Nombres))
             {
@@ -80,6 +80,10 @@ namespace Cualquiera.Controllers
             if (!SoloEmail(secretario.Email))
             {
                 ModelState.AddModelError("Email", "El Email ingresado no es válido.");
+            }
+            if (!secretario.Password.Equals(pwd2))
+            {
+                ModelState.AddModelError("Password", "La contraseña no coincide");
             }
             if (ModelState.IsValid)
             {
@@ -177,7 +181,7 @@ namespace Cualquiera.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Password")] Secretario secretario)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Password")] Secretario secretario, string pwd2)
         {
             if (id != secretario.Id && !EsRutValido(secretario.Rut))
             {
@@ -198,6 +202,10 @@ namespace Cualquiera.Controllers
             if (!SoloEmail(secretario.Email))
             {
                 ModelState.AddModelError("Email", "El Email ingresado no es válido.");
+            }
+            if (!secretario.Password.Equals(pwd2))
+            {
+                ModelState.AddModelError("Password", "La contraseña no coincide");
             }
             if (ModelState.IsValid)
             {
