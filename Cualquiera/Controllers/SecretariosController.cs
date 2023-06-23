@@ -7,11 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Cualquiera.Models;
 using System.Text.RegularExpressions;
-
+using System.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cualquiera.Controllers
 {
-    
+    [Authorize(Roles = "Administrador")]
     public class SecretariosController : Controller
     {
         private readonly ClinicaContext _context;
