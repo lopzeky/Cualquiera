@@ -17,7 +17,7 @@ public partial class Paciente
 
     public string? Email { get; set; }
 
-    public int? Telefono { get; set; }
+    public int Telefono { get; set; }
 
     public virtual ICollection<Cita> Cita { get; set; } = new List<Cita>();
 }
