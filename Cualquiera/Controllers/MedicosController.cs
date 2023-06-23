@@ -8,11 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using Cualquiera.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
-
+using System.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cualquiera.Controllers
 {
-    
+    [Authorize(Roles = "Administrador")]
     public class MedicosController : Controller
     {
         private readonly ClinicaContext _context;

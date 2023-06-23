@@ -30,7 +30,8 @@ namespace Cualquiera.Controllers
                 {
                     var claims = new List<Claim>
                     {
-                        new Claim(ClaimTypes.Name,user.Rut)
+                        new Claim(ClaimTypes.Name,user.Rut),
+                        new Claim(ClaimTypes.Role, "Administrador")
                     };
                     var identity= new ClaimsIdentity(claims,"login");
                     var principal= new ClaimsPrincipal(identity);
