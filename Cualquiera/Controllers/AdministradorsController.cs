@@ -30,8 +30,7 @@ namespace Cualquiera.Controllers
             {
                 admin = admin.Where(s => s.Usuario!.Contains(buscar));
             }
-            return View(await admin.ToListAsync());
-                          
+            return View(await admin.ToListAsync());            
         }
 
         // GET: Administradors/Details/5

@@ -34,6 +34,7 @@ namespace Cualquiera.Controllers
             }
             ViewData["FiltroNombre"] = String.IsNullOrEmpty(filtro) ? "NombreDescendente" : "";
             ViewData["FiltroFecha"] = filtro=="FechaAscendente" ? "FechaDescendente" : "FechaAscendente";
+            ViewData["FiltroDisponible"] = filtro== "Disponible" ? "NoDisponible" : "Disponible";
             switch (filtro)
             { 
                 case "NombreDescendente":
@@ -44,6 +45,12 @@ namespace Cualquiera.Controllers
                     break;
                 case "FechaAscendente":
                     Doc = Doc.OrderBy(Doc => Doc.FechaNacimiento);
+                    break;
+                case "Disponible":
+                    Doc = Doc.OrderByDescending(Doc => Doc.Disponible);
+                    break;
+                case "NoDisponible":
+                    Doc = Doc.OrderBy(Doc => Doc.Disponible);
                     break;
                 default:
                     Doc = Doc.OrderBy(Doc => Doc.Nombres);

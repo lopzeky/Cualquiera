@@ -40,7 +40,9 @@
                 @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Disponible)
+                <a asp-action="Index" asp-route-filtro="@ViewData["FiltroDisponible"]">
+                    @Html.DisplayNameFor(model => model.Disponible)
+                </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Password)
