@@ -11,13 +11,13 @@
         <a asp-action="Create" style="color: inherit; text-decoration: none;">Create New</a>
     </button>
 </p>
-<form asp-controller="Administradors" asp-action="Index" >
+<!--<form asp-controller="Administradors" asp-action="Index" >
     <p>
         Buscar: <input type="text" name="buscar" class="form-text"/>
         <input type="submit" value="boton" class="btn btn-dark"/>
     </p>
-</form>
-<table class="table">
+</form>-->
+<table class="table" id="AdministradorTable">
     <thead>
         <tr>
             <th>
@@ -54,3 +54,10 @@
 }
     </tbody>
 </table>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#AdministradorTable").DataTable();
+        });
+    </script>
+}

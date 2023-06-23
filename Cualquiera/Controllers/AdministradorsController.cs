@@ -20,9 +20,15 @@ namespace Cualquiera.Controllers
         {
             _context = context;
         }
-
+        public async Task<IActionResult> Index()
+        {
+            return _context.Administradors != null ?
+            View(await _context.Administradors.ToListAsync()) :
+            Problem("Entity set 'ClinicaContext.Administradors'  is null.");
+            
+        }
         // GET: Administradors
-        public async Task<IActionResult> Index(string buscar)
+        /*public async Task<IActionResult> Index(string buscar)
         {
             var admin = from Administrador in _context.Administradors select Administrador;
             //condicion 
@@ -31,7 +37,7 @@ namespace Cualquiera.Controllers
                 admin = admin.Where(s => s.Usuario!.Contains(buscar));
             }
             return View(await admin.ToListAsync());            
-        }
+        }*/
 
         // GET: Administradors/Details/5
         public async Task<IActionResult> Details(int? id)

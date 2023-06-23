@@ -24,40 +24,11 @@ namespace Cualquiera.Controllers
         }
 
         // GET: Medicos
-        public async Task<IActionResult> Index(string buscar, string filtro)
+        public async Task<IActionResult> Index()
         {
-            var Doc = from Medicos in _context.Medicos select Medicos;
-            //condicion 
-            if (!String.IsNullOrEmpty(buscar))
-            {
-                Doc = Doc.Where(s => s.Nombres!.Contains(buscar));
-            }
-            ViewData["FiltroNombre"] = String.IsNullOrEmpty(filtro) ? "NombreDescendente" : "";
-            ViewData["FiltroFecha"] = filtro=="FechaAscendente" ? "FechaDescendente" : "FechaAscendente";
-            ViewData["FiltroDisponible"] = filtro== "Disponible" ? "NoDisponible" : "Disponible";
-            switch (filtro)
-            { 
-                case "NombreDescendente":
-                    Doc = Doc.OrderByDescending(Doc => Doc.Nombres);
-                    break;
-                case "FechaDescendente":
-                    Doc = Doc.OrderByDescending(Doc => Doc.FechaNacimiento);
-                    break;
-                case "FechaAscendente":
-                    Doc = Doc.OrderBy(Doc => Doc.FechaNacimiento);
-                    break;
-                case "Disponible":
-                    Doc = Doc.OrderByDescending(Doc => Doc.Disponible);
-                    break;
-                case "NoDisponible":
-                    Doc = Doc.OrderBy(Doc => Doc.Disponible);
-                    break;
-                default:
-                    Doc = Doc.OrderBy(Doc => Doc.Nombres);
-                    break;
-            }
-            return View(await Doc.ToListAsync());
-
+            return _context.Medicos != null ?
+            View(await _context.Medicos.ToListAsync()) :
+            Problem("Entity set 'ClinicaContext.Medicos'  is null.");
         }
 
         // GET: Medicos/Details/5
