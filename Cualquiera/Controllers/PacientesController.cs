@@ -6,11 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Cualquiera.Models;
-
+using System.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cualquiera.Controllers
 {
-    
+    [Authorize(Roles = "Administrador")]
     public class PacientesController : Controller
     {
         private readonly ClinicaContext _context;
