@@ -45,9 +45,15 @@
             </div>
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
+                <input asp-for="Password" type="password" id="password1" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label class="control-label">Confirme Pswd</label>
+                <input type="password" id="password2" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -61,4 +67,16 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        var password1 = document.getElementById("password1");
+        var password2 = document.getElementById("password2");
+
+        password2.addEventListener("input", function () {
+            if (password2.value !== password1.value) {
+                password2.setCustomValidity("Las contraseñas no coinciden");
+            } else {
+                password2.setCustomValidity("");
+            }
+        });
+    </script>
 }
