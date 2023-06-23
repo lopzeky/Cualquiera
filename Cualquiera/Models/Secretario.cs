@@ -5,7 +5,7 @@ namespace Cualquiera.Models;
 
 public partial class Secretario
 {
-    internal string pwd2;
+    
     public int Id { get; set; }
 
     public string Nombres { get; set; } = null!;

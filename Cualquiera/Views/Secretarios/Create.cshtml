@@ -14,37 +14,37 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Nombres" class="control-label"></label>
-                <input asp-for="Nombres" class="form-control" />
+                <input asp-for="Nombres" class="form-control" required />
                 <span asp-validation-for="Nombres" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Apellidos" class="control-label"></label>
-                <input asp-for="Apellidos" class="form-control" />
+                <input asp-for="Apellidos" class="form-control" required />
                 <span asp-validation-for="Apellidos" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FechaNacimiento" class="control-label"></label>
-                <input asp-for="FechaNacimiento" class="form-control" />
+                <input asp-for="FechaNacimiento" class="form-control" required />
                 <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Rut" class="control-label"></label>
-                <input asp-for="Rut" class="form-control" />
+                <input asp-for="Rut" class="form-control" required />
                 <span asp-validation-for="Rut" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
+                <input asp-for="Email" class="form-control" required />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" type="password" id="password1" class="form-control" />
+                <input asp-for="Password" type="password" id="password1" class="form-control" required />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Confirme Password</label>
-                <input type="password" id="password2" name="pwd2" class="form-control" />
+                <input type="password" id="password2" name="contra" class="form-control" required />
                 <span class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -60,7 +60,7 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
+    <!--<script>
         var password1 = document.getElementById("password1");
         var password2 = document.getElementById("password2");
 
@@ -72,5 +72,5 @@
             }
         });
     </script>
-    <!--<script src="~/js/validacionRut.js" asp-append-version="true"></script> importamos la libreria en todos para verificar con html a cada uno separados recuperar contraseña con default 12345-->
+    <script src="~/js/validacionRut.js" asp-append-version="true"></script> importamos la libreria en todos para verificar con html a cada uno separados recuperar contraseña con default 12345-->
 }

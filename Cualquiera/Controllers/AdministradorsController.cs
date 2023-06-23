@@ -68,7 +68,7 @@ namespace Cualquiera.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Usuario,Password,Rut")] Administrador administrador,string pwd2)
+        public async Task<IActionResult> Create([Bind("Id,Usuario,Password,Rut")] Administrador administrador,Contra contras)
         {
             if (!SoloLetras(administrador.Usuario))
             {
@@ -82,7 +82,7 @@ namespace Cualquiera.Controllers
             {
                 ModelState.AddModelError("Password","El largo debe ser entre 5 y 8");
             }
-            if (!administrador.Password.Equals(pwd2))
+            if (!administrador.Password.Equals(contras.contra))
             {
                 ModelState.AddModelError("Password", "La contraseña no coincide");
             }
@@ -99,7 +99,7 @@ namespace Cualquiera.Controllers
         {
             //Regex regex = new Regex(@"[^a-zA-Z]");
             //if (regex.IsMatch(cadena))
-            if (Regex.IsMatch(cadena, @"[^a-zA-Z]"))
+            if (Regex.IsMatch(cadena, @"[^a-zA-Z-\p{L}]"))
             {
                 return false;
             }
@@ -108,7 +108,7 @@ namespace Cualquiera.Controllers
 
         public bool LargoPass(string x)
         {
-            if (string.IsNullOrEmpty(x))
+            if (!string.IsNullOrEmpty(x))
             {
                 int y = x.Length;
                 if (y >= 5 && y <= 8)
@@ -118,8 +118,8 @@ namespace Cualquiera.Controllers
                 return false;
             }
             return false;
-
         }
+
 
         private bool EsRutValido(string rut)
         {
@@ -178,7 +178,7 @@ namespace Cualquiera.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Usuario,Password,Rut")] Administrador administrador,string pwd2)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Usuario,Password,Rut")] Administrador administrador,Contra contras)
         {
             
             if (id != administrador.Id)
@@ -197,7 +197,7 @@ namespace Cualquiera.Controllers
             {
                 ModelState.AddModelError("Password", "El largo debe ser entre 5 y 8");
             }
-            if (!administrador.Password.Equals(pwd2))
+            if (!administrador.Password.Equals(contras.contra))
             {
                 ModelState.AddModelError("Password", "La contraseña no coincide");
             }

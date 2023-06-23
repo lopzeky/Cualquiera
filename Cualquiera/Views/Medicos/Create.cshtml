@@ -14,12 +14,12 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Nombres" class="control-label"></label>
-                <input asp-for="Nombres" class="form-control" name="Nombres" value="" />
+                <input asp-for="Nombres" class="form-control" name="Nombres" value="" required />
                 <span asp-validation-for="Nombres" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Apellidos" class="control-label"></label>
-                <input asp-for="Apellidos" class="form-control" name="Apellidos" value="" />
+                <input asp-for="Apellidos" class="form-control" name="Apellidos" value="" required />
                 <span asp-validation-for="Apellidos" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -35,7 +35,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" name="Email" value="" />
+                <input asp-for="Email" class="form-control" name="Email" value="" required />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
@@ -50,7 +50,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Confirme Password</label>
-                <input type="password" id="password2" name="pwd2" class="form-control" />
+                <input type="password" id="password2" name="contra" class="form-control" required />
                 <span class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -66,7 +66,7 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
+    <!--<script>
         var password1 = document.getElementById("password1");
         var password2 = document.getElementById("password2");
 
@@ -77,5 +77,5 @@
                 password2.setCustomValidity("");
             }
         });
-    </script>
+    </script>-->
 }

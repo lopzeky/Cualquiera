@@ -59,7 +59,7 @@ namespace Cualquiera.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Password")] Secretario secretario, string pwd2)
+        public async Task<IActionResult> Create([Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Password")] Secretario secretario, Contra contras)
         {
             if(!SoloLetras(secretario.Nombres))
             {
@@ -81,7 +81,7 @@ namespace Cualquiera.Controllers
             {
                 ModelState.AddModelError("Email", "El Email ingresado no es válido.");
             }
-            if (!secretario.Password.Equals(pwd2))
+            if (!secretario.Password.Equals(contras.contra))
             {
                 ModelState.AddModelError("Password", "La contraseña no coincide");
             }
@@ -95,8 +95,9 @@ namespace Cualquiera.Controllers
         }
         public bool SoloLetras(string cadena)
         {
-            Regex regex = new Regex(@"[^a-zA-Z]");
-            if (regex.IsMatch(cadena))
+            //Regex regex = new Regex(@"[^a-zA-Z]");
+            //if (regex.IsMatch(cadena))
+            if (Regex.IsMatch(cadena, @"[^a-zA-Z-\p{L}]"))
             {
                 return false;
             }
@@ -104,12 +105,17 @@ namespace Cualquiera.Controllers
         }
         public bool LargoPass(string x)
         {
-            int y = x.Length;
-            if (y >= 5 && y <= 8)
+            if (!string.IsNullOrEmpty(x))
             {
-                return true;
+                int y = x.Length;
+                if (y >= 5 && y <= 8)
+                {
+                    return true;
+                }
+                return false;
             }
             return false;
+
         }
 
         public bool SoloEmail(string email)
@@ -181,7 +187,7 @@ namespace Cualquiera.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Password")] Secretario secretario, string pwd2)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Password")] Secretario secretario, Contra contras)
         {
             if (id != secretario.Id && !EsRutValido(secretario.Rut))
             {
@@ -203,7 +209,7 @@ namespace Cualquiera.Controllers
             {
                 ModelState.AddModelError("Email", "El Email ingresado no es válido.");
             }
-            if (!secretario.Password.Equals(pwd2))
+            if (!secretario.Password.Equals(contras.contra))
             {
                 ModelState.AddModelError("Password", "La contraseña no coincide");
             }
