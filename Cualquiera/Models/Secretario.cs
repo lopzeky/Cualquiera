@@ -17,5 +17,5 @@ public partial class Secretario
 
     public string Email { get; set; } = null!;
 
-    public string Password { get; set; } = null!;
+    public string? Password { get; set; } = null!;
 }

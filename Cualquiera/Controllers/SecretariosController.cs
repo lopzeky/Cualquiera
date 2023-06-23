@@ -100,12 +100,17 @@ namespace Cualquiera.Controllers
         }
         public bool LargoPass(string x)
         {
-            int y = x.Length;
-            if (y >= 5 && y <= 8)
+            if (string.IsNullOrEmpty(x))
             {
-                return true;
+                int y = x.Length;
+                if (y >= 5 && y <= 8)
+                {
+                    return true;
+                }
+                return false;
             }
             return false;
+
         }
 
         public bool SoloEmail(string email)
@@ -198,6 +203,10 @@ namespace Cualquiera.Controllers
             if (!SoloEmail(secretario.Email))
             {
                 ModelState.AddModelError("Email", "El Email ingresado no es válido.");
+            }
+            if (!LargoPass(secretario.Password))
+            {
+                ModelState.AddModelError("Contraseña", "El largo debe ser entre 5 y 8");
             }
             if (ModelState.IsValid)
             {

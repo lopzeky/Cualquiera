@@ -104,12 +104,17 @@ namespace Cualquiera.Controllers
 
         public bool LargoPass(string x)
         {
-            int y = x.Length;
-            if (y >= 5 && y <= 8)
+            if (string.IsNullOrEmpty(x))
             {
-                return true;
+                int y = x.Length;
+                if (y >= 5 && y <= 8)
+                {
+                    return true;
+                }
+                return false;
             }
             return false;
+
         }
 
         private bool EsRutValido(string rut)
