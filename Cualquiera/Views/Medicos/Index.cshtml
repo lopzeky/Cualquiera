@@ -83,11 +83,35 @@
 }
     </tbody>
 </table>
-
+<button id="generarPDF">Generar PDF</button>
 @section Scripts{
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
             $("#MedicosTable").DataTable();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#generarPDF").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/Medicos/ProcesarDatos",
+                    data: JSON.stringify({ datos: "Datos de ejemplo" }), // Reemplaza "Datos de ejemplo" con los datos que deseas enviar
+                    contentType: "application/json",
+                    success: function (response) {
+                        if (response.success) {
+                            // Redirige a la URL del controlador que devuelve el PDF
+                            window.location.href = response.url;
+                        } else {
+                            console.log("Error al generar el PDF");
+                        }
+                    },
+                    error: function () {
+                        console.log("Error en la solicitud");
+                    }
+                });
+            });
         });
     </script>
 }
