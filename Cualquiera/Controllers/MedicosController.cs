@@ -60,39 +60,40 @@ namespace Cualquiera.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Disponible,Password")] Medico medico, Contra contras)
+        public async Task<IActionResult> Create([Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Disponible,Password")] Medico medicos, Contra contras)
         {
-            if (!SoloLetras(medico.Nombres))
+            if (!SoloLetras(medicos.Nombres))
             {
                 ModelState.AddModelError("Nombres", "El Nombre ingresado no es válido.");
             }
-            if (!SoloLetras(medico.Apellidos))
+            if (!SoloLetras(medicos.Apellidos))
             {
                 ModelState.AddModelError("Apellidos", "El Apellido ingresado no es válido.");
             }
-            if (!EsRutValido(medico.Rut))
+            if (!EsRutValido(medicos.Rut))
             {
                 ModelState.AddModelError("Rut", "El Rut ingresado no es válido.");
             }
-            if (!LargoPass(medico.Password))
-            {
-                ModelState.AddModelError("Password", "El largo debe ser entre 5 y 8");
-            }
-            if (!SoloEmail(medico.Email))
+            if (!SoloEmail(medicos.Email))
             {
                 ModelState.AddModelError("Email", "El Email ingresado no es válido.");
             }
-            if (!medico.Password.Equals(contras.contra))
+            if (!LargoPass(medicos.Password))
+            {
+                ModelState.AddModelError("Password", "El largo debe ser entre 5 y 8");
+            }
+            if (!medicos.Password.Equals(contras.contra))
             {
                 ModelState.AddModelError("Password", "La contraseña no coincide");
             }
+            
             if (ModelState.IsValid)
             {
-                _context.Add(medico);
+                _context.Add(medicos);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(medico);
+            return View(medicos);
         }
         public bool SoloLetras(string cadena)
         {
@@ -181,7 +182,7 @@ namespace Cualquiera.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Disponible,Password")] Medico medico, Contra contra)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Disponible,Password")] Medico medico, Contra contras)
         {
             if (id != medico.Id)
             {
@@ -204,9 +205,9 @@ namespace Cualquiera.Controllers
             {
                 ModelState.AddModelError("Email", "El Email ingresado no es válido.");
             }
-            if (!medico.Password.Equals(contra.contra))
+            if (!medico.Password.Equals(contras.contra))
             {
-                ModelState.AddModelError("Password", "La contraseña no coincide");
+                ModelState.AddModelError("password", "La contraseña no coincide");
             }
 
             if (ModelState.IsValid)

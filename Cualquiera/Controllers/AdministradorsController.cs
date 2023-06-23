@@ -72,7 +72,7 @@ namespace Cualquiera.Controllers
         {
             if (!SoloLetras(administrador.Usuario))
             {
-                ModelState.AddModelError("Usuario", "El Usuario ingresado no es válido.");
+                ModelState.AddModelError("Usuario", "El Nombre ingresado no es válido.");
             }
             if (!EsRutValido(administrador.Rut))
             {
@@ -94,6 +94,7 @@ namespace Cualquiera.Controllers
             }
             return View(administrador);
         }
+        
 
         public bool SoloLetras(string cadena)
         {
