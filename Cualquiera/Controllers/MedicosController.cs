@@ -60,7 +60,7 @@ namespace Cualquiera.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Disponible,Password")] Medico medico)
+        public async Task<IActionResult> Create([Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Disponible,Password")] Medico medico, string pwd2)
         {
             if (!SoloLetras(medico.Nombres))
             {
@@ -82,6 +82,10 @@ namespace Cualquiera.Controllers
             {
                 ModelState.AddModelError("Email", "El Email ingresado no es válido.");
             }
+            if (!medico.Password.Equals(pwd2))
+            {
+                ModelState.AddModelError("Password", "La contraseña no coincide");
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(medico);
@@ -102,17 +106,12 @@ namespace Cualquiera.Controllers
         }
         public bool LargoPass(string x)
         {
-            if(string.IsNullOrEmpty(x))
+            int y = x.Length;
+            if (y >= 5 && y <= 8)
             {
-                int y = x.Length;
-                if (y >= 5 && y <= 8)
-                {
-                    return true;
-                }
-                return false;
+                return true;
             }
-                return false;
-            
+            return false;
         }
         public bool SoloEmail(string email)
         {
@@ -177,7 +176,7 @@ namespace Cualquiera.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Disponible,Password")] Medico medico)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Disponible,Password")] Medico medico,string pwd2)
         {
             if (id != medico.Id)
             {
@@ -200,11 +199,11 @@ namespace Cualquiera.Controllers
             {
                 ModelState.AddModelError("Email", "El Email ingresado no es válido.");
             }
-            if (!LargoPass(medico.Password))
+            if (!medico.Password.Equals(pwd2))
             {
-                ModelState.AddModelError("Password", "El largo debe ser entre 5 y 8");
+                ModelState.AddModelError("Password", "La contraseña no coincide");
             }
-            
+
             if (ModelState.IsValid)
             {
                 try

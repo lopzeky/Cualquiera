@@ -59,7 +59,7 @@ namespace Cualquiera.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Password")] Secretario secretario)
+        public async Task<IActionResult> Create([Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Password")] Secretario secretario, string pwd2)
         {
             if(!SoloLetras(secretario.Nombres))
             {
@@ -81,6 +81,10 @@ namespace Cualquiera.Controllers
             {
                 ModelState.AddModelError("Email", "El Email ingresado no es válido.");
             }
+            if (!secretario.Password.Equals(pwd2))
+            {
+                ModelState.AddModelError("Password", "La contraseña no coincide");
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(secretario);
@@ -100,17 +104,12 @@ namespace Cualquiera.Controllers
         }
         public bool LargoPass(string x)
         {
-            if (string.IsNullOrEmpty(x))
+            int y = x.Length;
+            if (y >= 5 && y <= 8)
             {
-                int y = x.Length;
-                if (y >= 5 && y <= 8)
-                {
-                    return true;
-                }
-                return false;
+                return true;
             }
             return false;
-
         }
 
         public bool SoloEmail(string email)
@@ -182,7 +181,7 @@ namespace Cualquiera.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Password")] Secretario secretario)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombres,Apellidos,FechaNacimiento,Rut,Email,Password")] Secretario secretario, string pwd2)
         {
             if (id != secretario.Id && !EsRutValido(secretario.Rut))
             {
@@ -204,9 +203,9 @@ namespace Cualquiera.Controllers
             {
                 ModelState.AddModelError("Email", "El Email ingresado no es válido.");
             }
-            if (!LargoPass(secretario.Password))
+            if (!secretario.Password.Equals(pwd2))
             {
-                ModelState.AddModelError("Contraseña", "El largo debe ser entre 5 y 8");
+                ModelState.AddModelError("Password", "La contraseña no coincide");
             }
             if (ModelState.IsValid)
             {
