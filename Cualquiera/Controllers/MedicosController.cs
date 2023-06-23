@@ -121,7 +121,7 @@ namespace Cualquiera.Controllers
         }
         public bool SoloLetras(string cadena)
         {
-            Regex regex = new Regex(@"[^a-zA-Z]");
+            Regex regex = new Regex(@"[^a-zA-Z-\p{L}]");
             if (regex.IsMatch(cadena))
             //if (Regex.IsMatch(cadena, @"[^a-zA-Z]"))
             {
