@@ -205,10 +205,6 @@ namespace Cualquiera.Controllers
             {
                 ModelState.AddModelError("Email", "El Email ingresado no es válido.");
             }
-            if (!medico.Password.Equals(contras.contra))
-            {
-                ModelState.AddModelError("password", "La contraseña no coincide");
-            }
 
             if (ModelState.IsValid)
             {

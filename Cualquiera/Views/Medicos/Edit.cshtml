@@ -92,5 +92,18 @@
                 contraField.readOnly = true;
             }
         }
+        function validatePasswords() {
+            var checkbox = document.getElementById("confirmacion");
+            var passwordField = document.getElementById("passwordField");
+            var contraField = document.getElementById("contraField");
+            var contraFieldError = document.getElementById("contraFieldError");
+
+            if (checkbox.checked && passwordField.value !== contraField.value) {
+                contraFieldError.textContent = "Las contraseñas no coinciden.";
+                return false;
+            }
+
+            return true;
+        }
     </script>
 }
