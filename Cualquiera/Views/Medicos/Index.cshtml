@@ -81,11 +81,16 @@
         }
     </tbody>
 </table>
-<a href="@Url.Action("GeneratePdf", "Pdf")" class="btn btn-primary">Descargar PDF</a>
+<form id="donForm1" method="POST" action="/Controllers/Pdfcontroller/GeneratePdf1">
+    <input type="hidden" name="datos1">
+
+</form>
+<button id="botoncito1" name="botoncito1">Generar Reporte</button>
 @section Scripts{
     <script>
         $(document).ready(function () {
             $("#MedicosTable").DataTable();
         });
     </script>
+    <script src="js/sdd.js"></script>
 }

@@ -1,6 +1,6 @@
-﻿function impr() {
+﻿function impr1() {
     var tabla = document.getElementsByTagName("tr");
-    var datos = []
+    var datos1 = []
 
     for (var i = 1; i < tabla.length; i++) {
         var nombre = tabla[i].getElementsByTagName("td")[0].textContent;
@@ -8,18 +8,19 @@
         var fechanac = tabla[i].getElementsByTagName("td")[2].textContent;
         var rut = tabla[i].getElementsByTagName("td")[3].textContent;
         var email = tabla[i].getElementsByTagName("td")[4].textContent;
+        var checkbox = tabla[i].getElementsByTagName("input")[0];
+        var dis = checkbox.checked ? checkbox.value : 'off';
 
-        datos.push([
-            nombre, apellidos, fechanac, rut, email
+        datos1.push([
+            nombre, apellidos, fechanac, rut, email, dis
         ]);
 
-        document.getElementById("donForm").datos.value = JSON.stringify(datos);
+        document.getElementById("donForm1").datos1.value = JSON.stringify(datos1);
 
-        document.getElementById("donForm").submit();
-        
+        document.getElementById("donForm1").submit();
+
     }
 
 }
 
-document.getElementById("botoncito").addEventListener("click", impr);
-
+document.getElementById("botoncito1").addEventListener("click", impr1);
