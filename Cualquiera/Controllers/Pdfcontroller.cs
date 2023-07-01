@@ -51,7 +51,7 @@ namespace Cualquiera.Controllers
             // Crear el documento y establecer el tamaño de la página
             Document documento = new Document(PageSize.A4, 50, 50, 25, 25);
 
-            var filePath = "C:/Descargas/Cualquiera/archivo.pdf";
+            
             var stream = new MemoryStream();
             //using (var stream = new FileStream(filePath, FileMode.Create))
             //{
@@ -72,18 +72,19 @@ namespace Cualquiera.Controllers
                 // Fuente y estilo para los datos de usuario
                 var dataFont = FontFactory.GetFont(FontFactory.HELVETICA, 12);
 
-                for (int i = 0; i < lista.Length; i++)
-                {
-                    string nom =    lista[i][0].ToString();
-                    string appell = lista[i][1].ToString();
-                    string fech =   lista[i][2].ToString();
-                    string ru =     lista[i][3].ToString();
-                    string em =     lista[i][4].ToString();
-                    
-                    documento.Add(new Paragraph($"{nom}______{appell}______{fech}______{ru}______{em}"));
-                }
+            documento.Add(new Paragraph("Nombre__Apellidos___Fecha____________Rut_____________Email"));
+            for (int i = 0; i < lista.Length; i++)
+            {
+                string nom = lista[i][0].ToString().Trim();
+                string appell = lista[i][1].ToString().Trim();
+                string fech = lista[i][2].ToString().Trim();
+                string ru = lista[i][3].ToString().Trim();
+                string em = lista[i][4].ToString().Trim();
 
-                documento.Close();
+                documento.Add(new Paragraph($"{nom}__{appell}___{fech}____{ru}_____{em}"));
+            }
+
+            documento.Close();
                 writer.Flush();
                 stream.Seek(0, SeekOrigin.Begin);
 
