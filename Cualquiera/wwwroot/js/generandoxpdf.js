@@ -15,12 +15,6 @@
 
         document.getElementById("donForm").datos.value = JSON.stringify(datos);
 
-        console.log("Nombre:", nombre);
-        console.log("Apellidos:", apellidos);
-        console.log("Fecha de Nacimiento:", fechanac);
-        console.log("RUT:", rut);
-        console.log("Email:", email);
-
         document.getElementById("donForm").submit();
         
     }
