@@ -65,7 +65,13 @@
 }
     </tbody>
 </table>
+
+<form id="donForm" method="POST" action="/Controllers/Pdfcontroller/GeneratePdf">
+    <input type="hidden" name="datos">
+    
+</form>
 <button id="botoncito" name="botoncito">Generar Reporte</button>
+
 @section Scripts{
     <script>
         $(document).ready(function () {

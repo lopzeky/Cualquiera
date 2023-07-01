@@ -27,10 +27,10 @@ html, body {
     color: #FFC312;
 }
 
-    .social_icon span:hover {
-        color: white;
-        cursor: pointer;
-    }
+.social_icon span:hover {
+    color: white;
+    cursor: pointer;
+}
 
 .card-header h3 {
     color: white;
