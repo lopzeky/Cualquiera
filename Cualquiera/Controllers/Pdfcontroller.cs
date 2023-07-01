@@ -78,10 +78,13 @@ namespace Cualquiera.Controllers
                 string nom = lista[i][0].ToString().Trim();
                 string appell = lista[i][1].ToString().Trim();
                 string fech = lista[i][2].ToString().Trim();
+                List<char> caracteres = fech.ToList();
+                caracteres.RemoveRange(caracteres.Count - 7, 7);
+                string fechass = new string(caracteres.ToArray());
                 string ru = lista[i][3].ToString().Trim();
                 string em = lista[i][4].ToString().Trim();
 
-                documento.Add(new Paragraph($"{nom}__{appell}___{fech}____{ru}_____{em}"));
+                documento.Add(new Paragraph($"{nom}__{appell}___{fechass}____{ru}_____{em}"));
             }
 
             documento.Close();
